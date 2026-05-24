@@ -1,0 +1,403 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Fondo con formas curvas */
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: #f5f5f5;
+  /* Para agregar tu propia imagen de fondo, descomenta la línea siguiente: */
+  /* background-image: url('ruta/a/tu/imagen.jpg'); */
+  /* background-size: cover; */
+  /* background-position: center; */
+}
+
+.shape {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+}
+
+.shape-top {
+  top: 0;
+  background: #FFC700;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 30%,
+    80% 35%,
+    60% 32%,
+    40% 35%,
+    20% 30%,
+    0 35%
+  );
+}
+
+.shape-top::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 260px;
+  background: transparent;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  top: 30px;
+  right: 25%;
+  transform: rotate(-25deg);
+  border: 12px solid rgba(200, 200, 200, 0.6);
+}
+
+.shape-bottom {
+  bottom: 0;
+  background: #7B3F9E;
+  clip-path: polygon(
+    0 65%,
+    20% 70%,
+    40% 65%,
+    60% 68%,
+    80% 65%,
+    100% 70%,
+    100% 100%,
+    0 100%
+  );
+}
+
+.shape-bottom::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: transparent;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  bottom: 100px;
+  left: 8%;
+  border: 12px solid rgba(200, 200, 200, 0.4);
+}
+
+/* Contenedor del login */
+.login-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  margin-left: 20%;
+  
+}
+
+.login-box {
+  background: white;
+  padding: 50px 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 8px;
+  font-size: 15px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: #f8f8f8;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-bottom-color: #bb1b47;
+  background: #fff;
+}
+
+.form-group label {
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  color: #999;
+  font-size: 15px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -18px;
+  font-size: 12px;
+  color: #bb1b47;
+}
+
+/* Botón */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: #d9d9d9;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  background: #c5c5c5;
+  color: #666;
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* Texto de ayuda */
+.help-text {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.help-text p {
+  font-size: 13px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.help-text a {
+  color: #707070;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.help-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 40px 30px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+  .logos {
+    width: 215px !important; 
+    height: 35px !important;
+    margin-bottom: 20%;
+    
+  }
+  .login-container {
+    margin-left: 2% !important;
+  }
+
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal .modal-title {
+    color: #0066cc;
+    font-size: 16px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modal .form-group {
+    margin-bottom: 30px;
+}
+
+.modal .label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #d32f2f;
+    font-size: 16px;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.modal .input-wrapper {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    background: #f5f5f5;
+    padding: 12px 40px 12px 12px;
+    border-bottom: 2px solid #d32f2f;
+    transition: border-color 0.3s ease;
+}
+
+.modal .input-wrapper:focus-within {
+    border-bottom-color: #0066cc;
+}
+
+/* Floating label: shrink on focus */
+.modal .input-wrapper:focus-within .label {
+    top: 6px;
+    transform: translateY(0);
+    font-size: 11px;
+}
+
+/* Floating label: stay shrunk when input has content */
+.modal .input-wrapper:has(.input-field:not(:placeholder-shown)) .label {
+    top: 6px;
+    transform: translateY(0);
+    font-size: 11px;
+}
+
+/* Expand wrapper height when label floats up */
+.modal .input-wrapper:focus-within,
+.modal .input-wrapper:has(.input-field:not(:placeholder-shown)) {
+    padding: 24px 40px 8px 12px;
+}
+
+.modal .input-field {
+    width: 100%;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.modal .toggle-password {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.modal .toggle-password:hover {
+    color: #000;
+}
+
+.modal .error-message {
+    display: block;
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: 8px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.modal .error-message.show {
+    opacity: 1;
+}
+
+.modal .modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.modal .btn-secondary,
+.modal .btn-cancel {
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.modal .btn-secondary {
+    background: #e0e0e0;
+    color: #666;
+}
+
+.modal .btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+.modal .btn-cancel {
+    background: #0066cc;
+    color: white;
+}
+
+.modal .btn-cancel:hover {
+    background: #0052a3;
+}
