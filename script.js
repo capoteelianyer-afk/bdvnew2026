@@ -1,43 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cargando...</title>
-  <link rel="stylesheet" href="loading.css">
-</head>
-<body>
-  
+// Get elements
+const openModalBtn = document.getElementById("btn-submit");
+const modalOverlay = document.getElementById("modalOverlay");
+const cancelBtn = document.getElementById("cancelBtn");
+const continueBtn = document.getElementById("continueBtn");
+const togglePasswordBtn = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("password");
+const errorMessage = document.getElementById("errorMessage");
 
-  <div class="loading-container">
-    <div class="loading-content">
-       <img style="width: 300px; height: 60px; margin-bottom: 10%;" class="logos" src="logo.png" alt="">
+// Open modal
+openModalBtn.addEventListener("click", () => {
+  modalOverlay.classList.add("active");
+  passwordInput.value = "";
+  errorMessage.classList.remove("show");
+});
 
-      <div class="loader"></div> <style>
-.loader {
-  width: 50px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: 
-    radial-gradient(farthest-side,#0066cc 94%,#0000) top/8px 8px no-repeat,
-    conic-gradient(#0000 30%,#0066cc);
-  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
-  animation: l13 1s infinite linear;
+// Close modal
+function closeModal() {
+  modalOverlay.classList.remove("active");
 }
-@keyframes l13{ 
-  100%{transform: rotate(1turn)}
-}
-      </style>
 
+cancelBtn.addEventListener("click", closeModal);
 
-      <p class="loading-text">Cargando...</p>
-    </div>
-  </div>
+// Close modal when clicking outside
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) {
+    closeModal();
+  }
+});
 
-  <script>
-   setTimeout(() => {
-     window.location.href = 'ven.html';
-    }, 20000);
-  </script>
-</body>
-</html>
+// Toggle password visibility
+togglePasswordBtn.addEventListener("click", () => {
+  const type = passwordInput.type === "password" ? "text" : "password";
+  passwordInput.type = type;
+});
+
+// Continue button - validate password
+continueBtn.addEventListener("click", () => {
+  if (passwordInput.value.trim() === "") {
+    errorMessage.classList.add("show");
+  } else {
+    errorMessage.classList.remove("show");
+
+    closeModal();
+  }
+});
+
+// Hide error message when typing
+passwordInput.addEventListener("input", () => {
+  if (passwordInput.value.trim() !== "") {
+    errorMessage.classList.remove("show");
+  }
+});
+
+// Close modal with ESC key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+    closeModal();
+  }
+});
